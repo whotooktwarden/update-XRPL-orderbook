@@ -173,21 +173,30 @@ var order = {
   "passive": false,
   "fillOrKill": false
 };
-return api.prepareOrder(address, order)
-  .then(prepared => {
-//console.log(prepared);
-var txJSON = prepared.txJSON;
+  
+try {
+let prepared = await api.prepareOrder(address, order);
+  //console.log(prepared);
 
-//console.log(txJSON);
-var signresponse = api.sign(txJSON, secret);
+let txJSON = prepared.txJSON;
+console.log(txJSON);
+
+let signresponse = api.sign(txJSON, secret);
 //console.log(signresponse);
-//Sign the transaction
+
 var signedtxn = signresponse.signedTransaction;
 console.log("The signedTransaction is: "+signedtxn);
+
 //submit the transaction
-api.submit(signedtxn);
-console.log("Reached end of try block");
-}).catch(console.error);
+let submitResp = await api.submit(signedtxn);
+console.log(submitResp);
+
+} catch (orderError) {
+  console.log("Order Error : ");
+  console.log(orderError);
+}
+
+console.log('end of script');
 
 async function disconnect () {
     await api.disconnect();
@@ -196,5 +205,3 @@ async function disconnect () {
 disconnect();
 
 })(); // end async code then call it
-
-console.log('end of script');
