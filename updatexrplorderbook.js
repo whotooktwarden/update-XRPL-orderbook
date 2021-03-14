@@ -19,7 +19,7 @@ const request = require("request-promise");
 let url = "https://api.coingecko.com/api/v3/simple/price?ids=ripple&vs_currencies=cad";
 
 const api = new RippleAPI({
-  server: 'wss://s1.ripple.com' // Public rippled server hosted by Ripple, Inc.
+  server: 'wss://xrplcluster.com' // Public rippled server hosted by xrpl.ws
 });
 api.on('error', (errorCode, errorMessage) => {
   console.log(errorCode + ': ' + errorMessage);
